@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GPS fleet alerts and exception-driven fleet operations — Rajat Yadav</title>
+<title>GPS fleet alerts and exception-driven fleet operations — OpenVTS</title>
 <meta name="description" content="How large fleet operators turn GPS fleet alerts into exception-driven fleet operations: reduce alert noise, verify data freshness, and act on unexpected stops.">
 <link rel="canonical" href="https://hell1213.github.io/">
 <meta name="theme-color" content="#f4f2ee">
-<meta name="author" content="Rajat Yadav">
+<meta name="author" content="OpenVTS">
 
 <meta property="og:type" content="article">
-<meta property="og:site_name" content="Rajat Yadav — Field Notes">
+<meta property="og:site_name" content="OpenVTS">
 <meta property="og:title" content="Designing GPS fleet alerts operators can trust">
 <meta property="og:description" content="How large fleet operators turn GPS tracking alerts into exception-driven operations: reduce noise, verify data freshness, and act on unexpected stops.">
 <meta property="og:url" content="https://hell1213.github.io/">
@@ -19,7 +19,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Title card for an article on designing GPS fleet alerts operators can trust.">
 <meta property="article:published_time" content="2026-11-18">
-<meta property="article:author" content="Rajat Yadav">
+<meta property="article:author" content="OpenVTS">
 <meta property="article:section" content="Fleet operations">
 <meta property="article:tag" content="GPS fleet alerts">
 <meta property="article:tag" content="Fleet alert management">
@@ -47,8 +47,8 @@
   "image": "https://hell1213.github.io/assets/img/og.jpg",
   "datePublished": "2026-11-18",
   "dateModified": "2026-11-18",
-  "author": { "@type": "Person", "name": "Rajat Yadav", "url": "https://github.com/Hell1213" },
-  "publisher": { "@type": "Person", "name": "Rajat Yadav" },
+  "author": { "@type": "Organization", "name": "OpenVTS", "url": "https://openvts.io/" },
+  "publisher": { "@type": "Organization", "name": "OpenVTS", "url": "https://openvts.io/" },
   "mainEntityOfPage": "https://hell1213.github.io/"
 }
 </script>
@@ -58,12 +58,11 @@
 <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
 <header class="site-head" id="siteHead">
-  <a class="brand" href="#top" aria-label="Back to top">
-    <span class="brand-mark">RY</span>
-    <span class="brand-name">Rajat Yadav</span>
+  <a class="brand" href="#top" aria-label="OpenVTS — back to top">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-name">OpenVTS</span>
   </a>
   <span class="head-note">Field note 01 — Fleet operations</span>
-  <span class="head-meta"><span class="live-dot" aria-hidden="true"></span><span id="readTime">14 min read</span></span>
 </header>
 
 <main id="main">
@@ -73,19 +72,6 @@
     <p class="kicker"><span>Field note 01</span><span>Fleet operations</span></p>
     <h1>Designing fleet alerts<br>operators can trust</h1>
     <p class="deck">How large fleet operators turn GPS tracking alerts into exception-driven operations — without drowning dispatch in noise.</p>
-    <div class="byline">
-      <div class="byline-author">
-        <span class="avatar" aria-hidden="true">RY</span>
-        <span class="byline-text">
-          <strong>Rajat Yadav</strong>
-          <span>Product &amp; interface notes</span>
-        </span>
-      </div>
-      <div class="byline-meta">
-        <time datetime="2026-11-18">18 Nov 2026</time>
-        <span>14 min read</span>
-      </div>
-    </div>
   </header>
 
   <div class="article-body">
@@ -220,7 +206,7 @@
       <p>An alert deserves attention when it is actionable, owned, and rare enough to mean something. That is the standard for fleet alert management, and it is harder to meet than it sounds.</p>
       <p>Start with priority. A sustained overspeed event, a vehicle stopped in an unsafe location, and a prolonged idle at a depot do not deserve the same interruption. Define which alerts can interrupt a shift, which can wait for a review queue, and which belong only in a report.</p>
       <p>Then make the thresholds configurable. Duration, speed, geofence dwell, time windows, and vehicle type vary by fleet, depot, and customer contract. A threshold that suits a long-haul tractor unit may be wrong for a delivery van working a dense city route.</p>
-      <p>OpenVTS documents Over Stay and Over Idle as separate duration conditions. Over Stay responds to a stopped vehicle for a configured duration. Over Idle requires an ACC ignition source together with zero speed. Operationally, the difference matters: a stopped vehicle may be parked with the engine off, while an idling vehicle is burning fuel and may be waiting unnecessarily.</p>
+      <p><strong class="ovts">OpenVTS</strong> documents Over Stay and Over Idle as separate duration conditions. Over Stay responds to a stopped vehicle for a configured duration. Over Idle requires an ACC ignition source together with zero speed. Operationally, the difference matters: a stopped vehicle may be parked with the engine off, while an idling vehicle is burning fuel and may be waiting unnecessarily.</p>
 
       <figure class="diagram" role="group" aria-label="Two duration conditions: Over Stay and Over Idle">
         <div class="diagram-head">
@@ -239,7 +225,7 @@
             <p class="cond-desc">Requires an ACC ignition source. Documented separately because a stopped vehicle and an idling vehicle are different conditions.</p>
           </div>
         </div>
-        <figcaption><span>OpenVTS documents stopped-duration and idle-duration conditions separately; the idle condition requires an ACC ignition source and zero speed.</span></figcaption>
+        <figcaption><span><strong class="ovts">OpenVTS</strong> documents stopped-duration and idle-duration conditions separately; the idle condition requires an ACC ignition source and zero speed.</span></figcaption>
       </figure>
       <!-- Product capture pending: Notification Preferences showing Over Stay and Over Idle. -->
 
@@ -338,7 +324,7 @@
           <li><time>10:23</time><span>Outcome recorded.</span></li>
         </ol>
         <p class="sr-only">Illustrative timeline. Vehicle condition: stop begins at 10:00, qualifies as an exception at 10:15, movement resumes at 10:20, recovery confirmed at 10:21. Operator response: notification sent at 10:15, acknowledged at 10:17, outcome recorded at 10:23. Acknowledgement does not clear the vehicle condition.</p>
-        <figcaption><span>Illustrative process, not an OpenVTS screen or a record of a real incident. Vehicle recovery and operational acknowledgement are separate events.</span></figcaption>
+        <figcaption><span>Illustrative process, not an <strong class="ovts">OpenVTS</strong> screen or a record of a real incident. Vehicle recovery and operational acknowledgement are separate events.</span></figcaption>
       </figure>
 
       <p>Escalation should be defined before it is needed: how long an unacknowledged exception waits, who receives it next, and what happens outside operating hours. Without that, a notification can sit unowned while the vehicle condition changes.</p>
@@ -348,7 +334,7 @@
     <section class="section" id="platform">
       <p class="sec-label"><span>06</span><span>Platform</span></p>
       <h2>How fleet tracking platforms support exception management</h2>
-      <p>A platform cannot decide what counts as an exception for your fleet. It can provide the observations, context, and tools that make the decision possible. OpenVTS is the product reference for this article; the capabilities below are documented, and the operating model still belongs to the fleet.</p>
+      <p>A platform cannot decide what counts as an exception for your fleet. It can provide the observations, context, and tools that make the decision possible. <strong class="ovts">OpenVTS</strong> is the product reference for this article; the capabilities below are documented, and the operating model still belongs to the fleet.</p>
       <ul>
         <li><strong>Live vehicle tracking.</strong> Current position and status, read alongside the time of the last report and its data age.</li>
         <li><strong>Geofencing for fleet management.</strong> Define depots, customer sites, restricted areas, and service zones. Entry and exit events support arrival, departure, and restricted-area alerts.</li>
@@ -358,10 +344,10 @@
         <li><strong>Workflow builder and supported automation.</strong> Incoming-data and scheduled triggers, conditional logic, actions, and execution inspection. Draft and published versions are distinct; publishing activates the validated version while the runtime is available.</li>
         <li><strong>API integration.</strong> Connect exception data to a transport management system, dispatch tool, or service desk when the response process lives elsewhere.</li>
       </ul>
-      <p>These are building blocks, not a complete operating model. Acknowledgement, escalation, customer communication, and resolution may sit in a dispatch system, a service desk, or a documented human procedure. Verify which parts OpenVTS configures and which belong to another system.</p>
+      <p>These are building blocks, not a complete operating model. Acknowledgement, escalation, customer communication, and resolution may sit in a dispatch system, a service desk, or a documented human procedure. Verify which parts <strong class="ovts">OpenVTS</strong> configures and which belong to another system.</p>
       <p>A useful division of labour: let the tracking platform <mark>detect and describe</mark> an exception; let the operational system decide and record. Connect them with a stable reference so the same issue is not recreated in two places.</p>
       <!-- Product captures pending: geofence configuration or map view, a tested Workflow with execution details, and trip history. -->
-      <p>OpenVTS automation can deliver a notification or call an external action when a supported condition is met. It should not be assumed to manage a complete exception lifecycle unless that behaviour is configured and verified. The same caution applies to fleet workflow automation in any platform: the automation is only as reliable as the process behind it.</p>
+      <p><strong class="ovts">OpenVTS</strong> automation can deliver a notification or call an external action when a supported condition is met. It should not be assumed to manage a complete exception lifecycle unless that behaviour is configured and verified. The same caution applies to fleet workflow automation in any platform: the automation is only as reliable as the process behind it.</p>
     </section>
 
     <section class="section" id="measure">
@@ -398,7 +384,7 @@
         </ol>
       </div>
 
-      <p class="endnote">The figures are original explanatory diagrams, not captures of the OpenVTS interface. No mockup is presented as a real product screen. Thresholds, states, and policies shown are examples to validate for a real fleet.</p>
+      <p class="endnote">The figures are original explanatory diagrams, not captures of the <strong class="ovts">OpenVTS</strong> interface. No mockup is presented as a real product screen. Thresholds, states, and policies shown are examples to validate for a real fleet.</p>
     </section>
   </div>
 </article>
@@ -413,7 +399,7 @@
       <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
     </div>
     <div class="foot-base">
-      <span>© 2026 Rajat Yadav</span>
+      <span>© 2026 OpenVTS</span>
       <span>Published with GitHub Pages</span>
     </div>
   </div>

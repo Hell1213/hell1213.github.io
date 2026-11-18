@@ -10,6 +10,9 @@ The piece is written for fleet owners, transport companies, logistics operators,
 - Type: Inter only (400/500/600/700), sentence case, hierarchy through size, weight, and spacing.
 - Figures: original HTML/CSS diagrams. No fabricated product screenshots.
 - OG image: an original Inter title card (`assets/img/og.jpg`).
+- Masthead: the OpenVTS wordmark sits top-left. Its icon is a dashed placeholder;
+  replace `.brand-mark` in `assets/style.css` with the real brand icon when available.
+- Article column: 784px, one aligned column for prose, figures, and tables.
 
 ## Local preview
 

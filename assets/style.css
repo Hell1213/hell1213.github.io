@@ -17,7 +17,7 @@
 
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-  --col: 720px;
+  --col: 784px;
   --wrap: calc(var(--col) + 2 * var(--pad));
   --measure: var(--col);
   --pad: clamp(1.25rem, 4vw, 3rem);
@@ -103,41 +103,34 @@ button { font: inherit; color: inherit; }
 }
 .site-head.is-scrolled { border-bottom-color: var(--line); }
 
-.brand { display: inline-flex; align-items: center; gap: .7rem; text-decoration: none; }
+.brand {
+  display: inline-flex; align-items: center; gap: .6rem;
+  text-decoration: none;
+}
+/* Placeholder for the OpenVTS icon: swap the dashed square for the real mark. */
 .brand-mark {
-  display: grid; place-items: center;
-  width: 30px; height: 30px;
-  background: var(--ink); color: var(--paper);
-  font-weight: 600; font-size: .82rem; line-height: 1;
-  letter-spacing: .01em;
+  position: relative;
+  width: 24px; height: 24px;
+  border: 1px dashed var(--line-strong);
+}
+.brand-mark::after {
+  content: "";
+  position: absolute; inset: 7px;
+  background: var(--line-strong);
 }
 .brand-name {
-  font-size: .78rem; font-weight: 600; letter-spacing: .01em;
+  font-size: .76rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--ink);
 }
 .head-note {
   font-size: .7rem;
   font-weight: 500;
   letter-spacing: .02em;
   color: var(--muted);
-}
-.head-meta {
-  display: inline-flex; align-items: center; gap: .5rem;
-  font-size: .7rem;
-  font-weight: 500;
-  letter-spacing: .02em;
-  color: var(--muted);
   white-space: nowrap;
 }
-.live-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--ink);
-  animation: pulse 3.2s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .25; }
-}
-
 /* ---------- hero ---------- */
 
 .hero {
@@ -180,39 +173,6 @@ h1 {
   font-weight: 400;
   color: var(--muted);
   letter-spacing: -.004em;
-}
-
-.byline {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1.5rem;
-  margin-top: clamp(2.4rem, 5vw, 3.8rem);
-  padding-block: 1.1rem;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-.byline-author { display: flex; align-items: center; gap: .8rem; }
-.avatar {
-  display: grid; place-items: center;
-  width: 36px; height: 36px; border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  font-family: var(--sans); font-size: .62rem; letter-spacing: .01em;
-  color: var(--ink-soft);
-}
-.byline-text { display: flex; flex-direction: column; line-height: 1.35; }
-.byline-text strong { font-size: .8rem; font-weight: 600; }
-.byline-text span {
-  font-size: .68rem;
-  font-weight: 500;
-  letter-spacing: .02em;
-  color: var(--muted);
-}
-.byline-meta {
-  display: flex; gap: 1.4rem;
-  font-size: .7rem;
-  font-weight: 500;
-  letter-spacing: .02em;
-  color: var(--muted);
-  white-space: nowrap;
 }
 
 /* ---------- article grid ---------- */
@@ -399,6 +359,15 @@ h2 {
 }
 .section ul li:last-child { margin-bottom: 0; }
 .section ul + p { margin-top: 1.5em; }
+
+.ovts {
+  font-weight: 600;
+  color: var(--ink);
+  background: #e3e0d8;
+  padding: .02em .22em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
 
 mark {
   background: #e6dfd1;
@@ -956,11 +925,8 @@ th:first-child, td:first-child { width: 34%; }
   .intro .lead { font-size: 1.15rem; line-height: 1.64; }
   .hero { padding-top: 6.5rem; }
   h1 { font-size: clamp(1.9rem, 7.8vw, 2.3rem); }
-  .byline { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .byline-meta { gap: 1rem; }
   figcaption { grid-template-columns: 1fr; gap: .4rem; }
   .fig-no { padding-top: 0; }
-  .head-meta { font-size: .64rem; }
   .c-title { font-size: 1.08rem; }
   .contents a { grid-template-columns: 2.4rem minmax(0, 1fr) auto; gap: .75rem; }
   .pull { padding-left: 1.2rem; }
