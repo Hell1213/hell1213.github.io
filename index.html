@@ -3,25 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Every vehicle. One calm screen. — A field note on fleet operations</title>
-<meta name="description" content="A field note on fleet software that hides its complexity: one live map, geofences that announce themselves, trip replay, reports, alerts, and automations that do the watching for you.">
+<title>Designing Fleet Alerts Operators Can Trust — Rajat Yadav</title>
+<meta name="description" content="A practical approach to exception-driven fleet operations: define the expected activity, verify the evidence, and give each exception a response.">
 <link rel="canonical" href="https://hell1213.github.io/">
 <meta name="theme-color" content="#f4f2ee">
 <meta name="author" content="Rajat Yadav">
 
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Rajat Yadav — Field Notes">
-<meta property="og:title" content="Every vehicle. One calm screen.">
-<meta property="og:description" content="Seven surfaces of a modern fleet console, and the design decisions that keep them quiet.">
+<meta property="og:title" content="Designing Fleet Alerts Operators Can Trust">
+<meta property="og:description" content="Define the expected activity, verify the evidence, and give each exception a response.">
 <meta property="og:url" content="https://hell1213.github.io/">
 <meta property="og:image" content="https://hell1213.github.io/assets/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="article:published_time" content="2026-11-18">
 <meta property="article:author" content="Rajat Yadav">
+<meta property="article:section" content="Fleet operations">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Every vehicle. One calm screen.">
-<meta name="twitter:description" content="Seven surfaces of a modern fleet console, and the design decisions that keep them quiet.">
+<meta name="twitter:title" content="Designing Fleet Alerts Operators Can Trust">
+<meta name="twitter:description" content="Define the expected activity, verify the evidence, and give each exception a response.">
 <meta name="twitter:image" content="https://hell1213.github.io/assets/img/og.jpg">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -35,8 +36,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Every vehicle. One calm screen.",
-  "description": "Seven surfaces of a modern fleet console, and the design decisions that keep them quiet.",
+  "headline": "Designing Fleet Alerts Operators Can Trust",
+  "description": "A practical approach to exception-driven fleet operations: define the expected activity, verify the evidence, and give each exception a response.",
   "image": "https://hell1213.github.io/assets/img/og.jpg",
   "datePublished": "2026-11-18",
   "dateModified": "2026-11-18",
@@ -55,17 +56,17 @@
     <span class="brand-mark">RY</span>
     <span class="brand-name">Rajat Yadav</span>
   </a>
-  <span class="head-note">Field Note 01 — Fleet Operations</span>
-  <span class="head-meta"><span class="live-dot" aria-hidden="true"></span>8 min read</span>
+  <span class="head-note">Field Note 01 — Fleet alerting</span>
+  <span class="head-meta"><span class="live-dot" aria-hidden="true"></span><span id="readTime">11 min read</span></span>
 </header>
 
 <main id="main">
 <article>
 
   <header class="hero wrap" id="top">
-    <p class="kicker"><span>Field Note 01</span><span>Fleet operations</span></p>
-    <h1>Every vehicle.<br>One calm screen.</h1>
-    <p class="deck">Fleet software usually adds noise. The better version subtracts it — one live map, boundaries that announce themselves, and a day you can replay like a film.</p>
+    <p class="kicker"><span>Field Note 01</span><span>Fleet alerting</span></p>
+    <h1 class="h1--long">Designing Fleet Alerts<br>Operators Can Trust</h1>
+    <p class="deck">A practical approach to exception-driven fleet operations: define the expected activity, verify the evidence, and give each exception a response.</p>
     <div class="byline">
       <div class="byline-author">
         <span class="avatar" aria-hidden="true">RY</span>
@@ -76,205 +77,332 @@
       </div>
       <div class="byline-meta">
         <time datetime="2026-11-18">18 Nov 2026</time>
-        <span>8 min read</span>
+        <span>11 min read</span>
       </div>
     </div>
   </header>
 
   <div class="article-body">
     <figure class="hero-figure reveal">
-      <button class="shot" type="button" data-full="assets/img/live-tracking.jpg" data-caption="Fig. 01 — The live console: the fleet on the left, the world on the right, and one selected vehicle held in focus." aria-label="Open figure 1 larger">
+      <button class="shot" type="button" data-full="assets/img/alerts.jpg" data-caption="Illustrative alert ledger — not an OpenVTS capture. Duration, severity, and status sit in one place, which is where most alert triage begins." aria-label="Open the cover image larger">
         <picture>
-          <source srcset="assets/img/live-tracking.webp" type="image/webp">
-          <img src="assets/img/live-tracking.jpg" width="1585" height="992" alt="A fleet manager holds a tablet showing a live map of a city with vehicle markers, a vehicle list with speeds, and a detail strip for Truck 204." fetchpriority="high">
+          <source srcset="assets/img/alerts.webp" type="image/webp">
+          <img src="assets/img/alerts.jpg" width="1586" height="992" alt="An alert console showing an event ledger with severity badges, acknowledgement status, and a summary of open and high-severity events." fetchpriority="high">
         </picture>
-        <span class="zoom-hint" aria-hidden="true">View full size</span>
       </button>
-      <figcaption><span class="fig-no">Fig. 01</span><span>The live console: the fleet on the left, the world on the right, and one selected vehicle held in focus.</span></figcaption>
+      <figcaption><span class="fig-no">Cover</span><span>Illustrative alert ledger — not an OpenVTS capture. Duration, severity, and status sit in one place, which is where most alert triage begins.</span></figcaption>
     </figure>
 
     <section class="intro">
-      <p class="lead">Most fleet software is built on a quiet assumption: that the operator needs more. More panels, more pings, more numbers per square inch. Then a dispatcher opens the screen at 7:40 in the morning, fifteen trucks are already late, and the extra information becomes another job.</p>
-      <p>The console in this field note starts from the opposite direction. It assumes the answer should be visible before the question is finished. Where is everything? What changed? What needs a human? Seven surfaces, each doing one job, arranged so the next action is obvious.</p>
+      <p class="lead">At 10:15, a dispatcher receives a notification: a delivery vehicle has been stationary for 15 minutes.</p>
+      <p>The vehicle could be unloading, waiting at a junction, taking an approved break, or experiencing a problem. Its tracker might also have stopped reporting while the map continued to display its last position.</p>
+      <p>The notification supplies a duration. The dispatcher still has to determine what that duration means.</p>
+      <p>This illustrative example exposes a design problem in fleet tracking: detecting a condition is only part of deciding whether someone should act. A useful exception system must connect reliable observations with operating expectations, then carry the resulting issue through investigation and resolution.</p>
+      <p>OpenVTS provides the product reference for this article through its documented notification settings and visual Workflow builder. The rule specification and exception lifecycle below are proposed design examples; they should be validated against the capabilities and integrations of the deployment being used.</p>
 
-      <nav class="contents" aria-label="What's inside">
-        <p class="contents-title">What's inside</p>
+      <nav class="contents" aria-label="What’s inside">
+        <p class="contents-title">What’s inside</p>
         <ol>
-          <li><a href="#map"><span class="c-no">01</span><span class="c-title">One map, and nothing else asking for attention</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
-          <li><a href="#zones"><span class="c-no">02</span><span class="c-title">Boundaries that do the watching</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
-          <li><a href="#history"><span class="c-no">03</span><span class="c-title">Yesterday, replayed</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
-          <li><a href="#reports"><span class="c-no">04</span><span class="c-title">The week, on one page</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
-          <li><a href="#alerts"><span class="c-no">05</span><span class="c-title">Alerts that earn their place</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
-          <li><a href="#automations"><span class="c-no">06</span><span class="c-title">The workflow that runs itself</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
-          <li><a href="#mobile"><span class="c-no">07</span><span class="c-title">The office in a pocket</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#define"><span class="c-no">01</span><span class="c-title">Define the exception before choosing the alert</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#rule"><span class="c-no">02</span><span class="c-title">Build one rule that can be explained</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#time"><span class="c-no">03</span><span class="c-title">Treat time and missing data explicitly</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#lifecycle"><span class="c-no">04</span><span class="c-title">Give each exception a lifecycle</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#test"><span class="c-no">05</span><span class="c-title">Test the cases that could mislead dispatch</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#apply"><span class="c-no">06</span><span class="c-title">Applying the approach with OpenVTS</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#measure"><span class="c-no">07</span><span class="c-title">Measure reliability and operator workload</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
         </ol>
       </nav>
     </section>
 
-    <section class="section reveal" id="map">
-      <p class="sec-label"><span>01</span><span>Live tracking</span></p>
-      <h2>One map, and nothing else asking for attention</h2>
-      <p>A fleet map fails in two directions. Show too little and the dispatcher opens a spreadsheet. Show too much and the map becomes wallpaper — every vehicle equally loud, every number competing with the one beside it.</p>
-      <p>The cover image makes three decisions that keep the screen quiet. The list and the map share a single selection: choose a truck in the list and it becomes the only thing the map explains. Status is carried by a small set of state chips — running, stopped, idle, offline — rather than a rainbow of colours competing with the road. And freshness is always visible, because “2 sec ago” is a promise the screen has to keep.</p>
-      <p>The selected vehicle opens a strip along the bottom: status, speed, ignition, distance travelled, last update. Five facts, one destination — the phone call the dispatcher is about to make. Everything else about that vehicle, its trips and logs and sensors, is one tab away, not one glance away.</p>
-
-      <blockquote class="pull">
-        <p>The map is doing its job when nobody has to ask where anything is.</p>
-      </blockquote>
-    </section>
-
-    <section class="section reveal" id="zones">
-      <p class="sec-label"><span>02</span><span>Geofencing</span></p>
-      <h2>Boundaries that do the watching</h2>
-      <p>A geofence turns geography into an event. Draw a polygon once — a distribution centre, a customer’s yard, a restricted road — and the system will tell you when a vehicle enters or leaves it.</p>
-      <p>The temptation is to draw fifty. Each zone is easy to add and hard to retire, and every zone can produce two alerts. The discipline is to keep zones in the language of the operation: depots, customer sites, places where a vehicle should not be after dark. Two toggles per zone, entry and exit, and nothing else demanding attention.</p>
-      <p>The console treats a zone crossing as a small, legible fact: <em>vehicle entered zone, Truck 204, Distribution Centre, 10:24.</em> No coordinates, no polygon maths — just the thing an operator would have said out loud.</p>
-      <p>Used well, geofences replace a category of phone calls. Did the truck arrive? Did it leave? Was anyone at the site after hours? Used badly, they replace silence with noise. The difference is rarely the technology; it is how many zones someone drew in the first week.</p>
-
-      <figure class="figure reveal">
-        <button class="shot" type="button" data-full="assets/img/geofencing.jpg" data-caption="Fig. 02 — Zones are drawn once and named in the operator’s language. Entry and exit are the only rules on the panel." aria-label="Open figure 2 larger">
-          <picture>
-            <source srcset="assets/img/geofencing.webp" type="image/webp">
-            <img src="assets/img/geofencing.jpg" width="1585" height="992" alt="Geofencing screen with a searchable zone list, a map polygon around a Distribution Centre, and zone rules for entry and exit." loading="lazy">
-          </picture>
-          <span class="zoom-hint" aria-hidden="true">View full size</span>
-        </button>
-        <figcaption><span class="fig-no">Fig. 02</span><span>Zones are drawn once and named in the operator’s language. Entry and exit are the only rules on the panel.</span></figcaption>
-      </figure>
-    </section>
-
-    <section class="section reveal" id="history">
-      <p class="sec-label"><span>03</span><span>Trip history</span></p>
-      <h2>Yesterday, replayed</h2>
-      <p>Live answers “where”. History answers “what happened”, and the two should never share a queue.</p>
-      <p>Trip history reads like a logbook: every trip with a start, an end, a distance, a duration, and a stop count. Select one and the map redraws the route between two pins; a summary gives distance, driving time, stopped time, and maximum speed. A scrubber lets the day move under your thumb instead of arriving all at once.</p>
-      <p>This is the surface that settles arguments. A customer says the delivery never came; the route says it did, at 10:42, and stopped for eleven minutes. A driver says a route is impossible in the allotted time; the trip says it takes two hours and one minute on a Tuesday. An insurer asks what happened in the ninety seconds before an incident; the timeline answers without guesswork.</p>
-      <p>Good history is browsable, not queryable. The operator should be able to find the day, find the vehicle, and press play — without composing a report to ask a question.</p>
-
-      <figure class="figure reveal">
-        <button class="shot" type="button" data-full="assets/img/trip-history.jpg" data-caption="Fig. 03 — A day as a list, a route on the map, and a summary of distance, driving, stopped time, and top speed." aria-label="Open figure 3 larger">
-          <picture>
-            <source srcset="assets/img/trip-history.webp" type="image/webp">
-            <img src="assets/img/trip-history.jpg" width="1568" height="1003" alt="Trip history screen for Van 204 showing a highlighted route on a city map, a selected trip summary, a trip table with distances and durations, and a timeline scrubber." loading="lazy">
-          </picture>
-          <span class="zoom-hint" aria-hidden="true">View full size</span>
-        </button>
-        <figcaption><span class="fig-no">Fig. 03</span><span>A day as a list, a route on the map, and a summary of distance, driving, stopped time, and top speed.</span></figcaption>
-      </figure>
-    </section>
-
-    <aside class="band reveal">
-      <div class="band-inner">
-        <p class="band-quote">“A fleet does not need more data. It needs the right five facts, in the right order, at the right moment.”</p>
-        <p class="band-by">The operating principle</p>
-      </div>
-    </aside>
-
-    <section class="section reveal" id="reports">
-      <p class="sec-label"><span>04</span><span>Reports</span></p>
-      <h2>The week, on one page</h2>
-      <p>Reports are a different workload from the live map, and they deserve a different surface. The distance report is deliberately plain: a date range, a vehicle filter, and the numbers that survive the week — total distance, engine hours, vehicles counted, average distance, plus a daily trend and a per-vehicle bar.</p>
-      <p>Plainness is what makes it readable. The bars are sorted, so the outlier is the long one. A vehicle with high engine hours and low distance is not a mystery; it is idling, queuing, or waiting at a dock. A vehicle with high distance and modest hours is doing the long, clean runs.</p>
-      <p>Two rules keep reports useful. Filter before you read — a fleet-wide average hides the vehicle that needs attention. And export without ceremony, because the report usually leaves the building: to a client, an accountant, or a Monday meeting.</p>
-      <p>The separation matters for performance too. Live reads current state; reports scan history. Put them on the same path and the dispatcher’s map pays for somebody else’s quarterly review.</p>
-
-      <figure class="figure reveal">
-        <button class="shot" type="button" data-full="assets/img/reports.jpg" data-caption="Fig. 04 — Distance by vehicle, engine hours, trips, and a daily trend: a week reduced to the numbers that survive it." aria-label="Open figure 4 larger">
-          <picture>
-            <source srcset="assets/img/reports.webp" type="image/webp">
-            <img src="assets/img/reports.jpg" width="1585" height="992" alt="Distance report screen showing fleet summary totals, a sorted distance-by-vehicle bar chart, a daily distance line chart, and a table of vehicles with distance, engine hours, and trips." loading="lazy">
-          </picture>
-          <span class="zoom-hint" aria-hidden="true">View full size</span>
-        </button>
-        <figcaption><span class="fig-no">Fig. 04</span><span>Distance by vehicle, engine hours, trips, and a daily trend: a week reduced to the numbers that survive it.</span></figcaption>
-      </figure>
-    </section>
-
-    <section class="section reveal" id="alerts">
-      <p class="sec-label"><span>05</span><span>Alerts</span></p>
-      <h2>Alerts that earn their place</h2>
-      <p>An alert is a promise that something deserves attention. Most systems break that promise within a month.</p>
-      <p>This one begins with an event history rather than a siren: time, vehicle, event, severity, status. Six events, scannable in a glance. “Open” and “Acknowledged” are first-class states, because an alert without an owner is just decoration. Speed thresholds, temperature rises, fuel drops, and zone exits all arrive in the same ledger instead of four different inboxes.</p>
-      <p>The filters are the quiet hero. By vehicle, by date, by event type. An operator investigating one truck should not have to read the whole fleet’s week.</p>
-      <p>The test for any alert is simple: can someone do something about it, and do they know it is theirs? If the answer is no, the alert is not monitoring. It is background noise with a timestamp.</p>
-
-      <figure class="figure reveal">
-        <button class="shot" type="button" data-full="assets/img/alerts.jpg" data-caption="Fig. 05 — One ledger for every event, with severity and acknowledgement visible before the detail." aria-label="Open figure 5 larger">
-          <picture>
-            <source srcset="assets/img/alerts.webp" type="image/webp">
-            <img src="assets/img/alerts.jpg" width="1586" height="992" alt="Alerts screen with filters, counts for open, acknowledged, and high severity events, a bar chart of event types, and an event table with severity badges and status." loading="lazy">
-          </picture>
-          <span class="zoom-hint" aria-hidden="true">View full size</span>
-        </button>
-        <figcaption><span class="fig-no">Fig. 05</span><span>One ledger for every event, with severity and acknowledgement visible before the detail.</span></figcaption>
-      </figure>
-    </section>
-
-    <section class="section reveal" id="automations">
-      <p class="sec-label"><span>06</span><span>Automations</span></p>
-      <h2>The workflow that runs itself</h2>
-      <p>Once an event exists, someone has to respond to it. Automations are how a fleet stops treating every response as a fresh act of memory.</p>
-      <p>The builder is a sentence made of blocks: when a trigger fires, if the condition holds, do this — then that. In the example on screen, a geofence exit for any fleet vehicle sends a mobile push and an email to operations. Two actions, one condition, no code. Draft, test, save.</p>
-      <p>The value is not the individual notification. It is the removal of a decision from a human’s day. The dispatcher no longer has to remember to check the yard at six; the workflow checks, and speaks only when the gate is crossed.</p>
-      <p>Start with one automation and instrument it. A workflow nobody can explain is worse than a manual process, because it fails silently. The measure of a good one is boring: fewer surprises, fewer repetitive messages, and a paper trail that reads like the process itself.</p>
-
-      <figure class="figure reveal">
-        <button class="shot" type="button" data-full="assets/img/automations.jpg" data-caption="Fig. 06 — A trigger, a condition, two actions. The whole workflow can be read in a single glance." aria-label="Open figure 6 larger">
-          <picture>
-            <source srcset="assets/img/automations.webp" type="image/webp">
-            <img src="assets/img/automations.jpg" width="1586" height="992" alt="Automation builder showing a flow from a geofence exit trigger, through a vehicle-assigned condition, to a mobile push and an email action." loading="lazy">
-          </picture>
-          <span class="zoom-hint" aria-hidden="true">View full size</span>
-        </button>
-        <figcaption><span class="fig-no">Fig. 06</span><span>A trigger, a condition, two actions. The whole workflow can be read in a single glance.</span></figcaption>
-      </figure>
-    </section>
-
-    <section class="section reveal" id="mobile">
-      <p class="sec-label"><span>07</span><span>Mobile</span></p>
-      <h2>The office in a pocket</h2>
-      <p>Field software is used standing up, in sunlight, often with one hand. That is a different design brief from a dispatcher’s dual-monitor desk.</p>
-      <p>The mobile view keeps the same state model — same vehicles, same statuses, same selection — and removes everything that requires a second hand. Search, four state chips, the map, the list. A manager at a customer site can confirm a vehicle is en route without opening a laptop. A driver can see the day’s assigned movement without reading a dashboard built for a wall.</p>
-      <p>Responsive is not a smaller desktop. It is a different posture: the thumb, the glance, the interrupted conversation. The best compliment a field screen can receive is that it was closed again in four seconds.</p>
-
-      <figure class="figure reveal">
-        <button class="shot" type="button" data-full="assets/img/mobile.jpg" data-caption="Fig. 07 — The same fleet, the same state, reduced to what one hand can do in the field." aria-label="Open figure 7 larger">
-          <picture>
-            <source srcset="assets/img/mobile.webp" type="image/webp">
-            <img src="assets/img/mobile.jpg" width="1568" height="1003" alt="A phone and a tablet side by side showing the fleet overview: map, vehicle list with status chips, and a selected vehicle detail card." loading="lazy">
-          </picture>
-          <span class="zoom-hint" aria-hidden="true">View full size</span>
-        </button>
-        <figcaption><span class="fig-no">Fig. 07</span><span>The same fleet, the same state, reduced to what one hand can do in the field.</span></figcaption>
-      </figure>
-    </section>
-
-    <section class="section closing reveal" id="pattern">
-      <p class="sec-label"><span>08</span><span>The pattern</span></p>
-      <h2>The pattern underneath</h2>
-      <p>Seven surfaces, one state model. The map, the list, the trip, the report, the alert, and the automation are all reading and writing the same understanding of the fleet. That is why the console feels calm: nothing has to be reconciled between tabs, because there are no competing versions of the truth.</p>
+    <section class="section reveal" id="define">
+      <p class="sec-label"><span>01</span><span>Framing</span></p>
+      <h2>Define the Exception Before Choosing the Alert</h2>
+      <p>An event and an operational exception serve different purposes.</p>
+      <p>A vehicle entering a warehouse geofence is an event. If the visit is scheduled, recording it may be sufficient. If the vehicle enters a restricted site outside its operating window, the same type of event may require intervention.</p>
+      <p>For this article, the distinction is:</p>
 
       <div class="table-wrap">
         <table>
-          <caption class="sr-only">Each surface, the question it answers, and what it keeps out of the way</caption>
-          <thead>
-            <tr><th scope="col">Surface</th><th scope="col">Question it answers</th><th scope="col">What stays out of the way</th></tr>
-          </thead>
+          <thead><tr><th scope="col">Layer</th><th scope="col">Question it answers</th></tr></thead>
           <tbody>
-            <tr><td>Live map</td><td>Where is everything now?</td><td>History, reports</td></tr>
-            <tr><td>Geofences</td><td>Who crossed which line?</td><td>Raw coordinates</td></tr>
-            <tr><td>Trip history</td><td>What happened yesterday?</td><td>Fleet-wide averages</td></tr>
-            <tr><td>Reports</td><td>What changed this week?</td><td>Real-time updates</td></tr>
-            <tr><td>Alerts</td><td>What needs a human?</td><td>Everything already fine</td></tr>
-            <tr><td>Automations</td><td>What should happen next?</td><td>Manual routine</td></tr>
-            <tr><td>Mobile</td><td>What do I need right now?</td><td>The rest of the desk</td></tr>
+            <tr><td>Observation</td><td>What did the device report?</td></tr>
+            <tr><td>Condition</td><td>Which configured rule does the observation satisfy?</td></tr>
+            <tr><td>Exception</td><td>How does that condition depart from the expected operation?</td></tr>
+            <tr><td>Notification</td><td>Who needs to know, and how urgently?</td></tr>
+            <tr><td>Response</td><td>What should the responsible person do?</td></tr>
           </tbody>
         </table>
       </div>
 
-      <p>Calm is not the absence of information. It is information arranged so the next action is obvious. A dispatcher should be able to look up, see the fleet, and know what to do. Everything else is interface.</p>
+      <figure class="diagram reveal">
+        <div class="diagram-head">
+          <span class="fig-no">Fig. 01</span>
+          <span class="diagram-title">From observation to response</span>
+        </div>
+        <div class="flow-gates" aria-hidden="true">
+          <div class="gate gate--2"><span class="gate-k">Check</span><span class="gate-t">Data freshness</span><span class="gate-note">before condition 02</span></div>
+          <div class="gate gate--3"><span class="gate-k">Input</span><span class="gate-t">Trip expectations</span><span class="gate-note">feeds exception 03</span></div>
+        </div>
+        <ol class="flow" aria-label="Five stages from valid stationary observations to an investigated outcome">
+          <li><span class="n">01</span><p>Valid stationary observations</p></li>
+          <li><span class="n">02</span><p>Stop exceeds 15 minutes</p></li>
+          <li class="is-key"><span class="n">03</span><p>Outside approved stop allowance during an active trip</p></li>
+          <li class="is-notify"><span class="n">04</span><p>Notify assigned dispatcher</p></li>
+          <li><span class="n">05</span><p>Investigate and record outcome</p></li>
+        </ol>
+        <figcaption><span>Illustrative decision flow; thresholds and operating policies must be configured for the fleet.</span></figcaption>
+      </figure>
 
-      <p class="endnote">Field Note 01 · Screens are illustrative mockups; vehicle names, routes, and figures are sample data.</p>
+      <p>The expectation must come from somewhere. It could be a trip assignment, customer appointment, approved break, route plan, site-specific dwell allowance, or explicitly configured policy.</p>
+      <p>Without that context, a rule can identify a long stop. Calling it an <strong>unexpected</strong> stop requires additional evidence.</p>
+      <p>Start by defining the decision the operator needs to make. For a delivery fleet, that might be: <em>Does this stop threaten the next scheduled visit, and should dispatch contact the driver?</em> That question gives the rule a purpose and identifies the information the notification must contain.</p>
+    </section>
+
+    <section class="section reveal" id="rule">
+      <p class="sec-label"><span>02</span><span>The rule</span></p>
+      <h2>Build One Rule That Can Be Explained</h2>
+      <p>Consider a fleet that wants dispatchers to review prolonged stops during assigned delivery trips.</p>
+      <p>The following is an <strong>illustrative rule specification</strong>. Its values are examples for testing, not recommended defaults or a description of OpenVTS’s internal implementation.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Element</th><th scope="col">Example specification</th></tr></thead>
+          <tbody>
+            <tr><td>Scope</td><td>Vehicles assigned to an active delivery trip</td></tr>
+            <tr><td>Stop evidence</td><td>Valid observations indicate negligible movement within a small area</td></tr>
+            <tr><td>Duration</td><td>Stop evidence persists for at least 15 minutes</td></tr>
+            <tr><td>Expected activity</td><td>Exclude approved stops only within their permitted time and dwell allowance</td></tr>
+            <tr><td>Freshness</td><td>Latest valid observation is no more than two minutes old</td></tr>
+            <tr><td>Evidence gaps</td><td>A gap exceeding two minutes breaks the evidence of a continuous stop</td></tr>
+            <tr><td>Ownership</td><td>Dispatcher responsible for the assigned trip</td></tr>
+            <tr><td>Recovery</td><td>Fresh observations confirm resumed movement for at least one minute</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Each row resolves an ambiguity.</p>
+      <p><strong>Scope</strong> prevents parked vehicles outside operating hours from becoming delivery exceptions. <strong>Expected activity</strong> separates a planned visit from an unexplained stop. <strong>Freshness</strong> prevents an old map position from being presented as evidence of a continuing condition.</p>
+      <p>The evidence-gap rule also limits what the system claims to know. If a tracker reports a stop, disappears for ten minutes, and returns at the same location, the vehicle may have remained there throughout. It may also have moved and returned. The available observations do not establish continuous stationary time.</p>
+      <p>That uncertainty should affect the rule’s result.</p>
+      <p>Stopped and idling vehicles also require separate treatment. Engine idling needs evidence that the engine is running while the vehicle is stationary. Ignition or ACC may be used as a configured proxy, but it is not universally equivalent to engine-running status. OpenVTS’s documented Over Idle notification, for example, uses ACC/ignition ON together with speed zero and identifies the need for an ACC ignition source. <a href="https://openvts.io/resources/documentation/user-guide/notification-preferences" target="_blank" rel="noopener">OpenVTS notification preferences</a>.</p>
+
+      <figure class="diagram reveal">
+        <div class="diagram-head">
+          <span class="fig-no">Fig. 02</span>
+          <span class="diagram-title">Two duration conditions, two different claims</span>
+        </div>
+        <div class="cond-grid">
+          <div class="cond">
+            <p class="cond-k">Over Stay</p>
+            <p class="cond-rule"><span class="cond-f">Speed</span> 0 <span class="cond-op">for the configured duration</span></p>
+            <p class="cond-desc">A stopped vehicle. Says nothing, by itself, about whether the engine is running or the stop was planned.</p>
+          </div>
+          <div class="cond">
+            <p class="cond-k">Over Idle</p>
+            <p class="cond-rule"><span class="cond-f">ACC / ignition</span> ON <span class="cond-op">+</span> <span class="cond-f">Speed</span> 0</p>
+            <p class="cond-desc">Requires an ACC ignition source. Documented as a separate condition, because “stopped” and “idling” are not the same observation.</p>
+          </div>
+        </div>
+        <figcaption><span>OpenVTS separates stopped-duration and idle-duration notifications; the documented idle condition requires ACC/ignition ON and speed zero.</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="section reveal" id="time">
+      <p class="sec-label"><span>03</span><span>Evidence</span></p>
+      <h2>Treat Time and Missing Data Explicitly</h2>
+      <p>A tracker observation has at least two relevant times:</p>
+      <ul>
+        <li><strong>Observation time:</strong> when the device recorded the position or measurement.</li>
+        <li><strong>Receipt time:</strong> when the server received it.</li>
+      </ul>
+      <p>Suppose a vehicle stops at 10:00, resumes its journey at 10:20, and reconnects to the server at 10:30. Its stored observations may describe a genuine prolonged stop. Sending a notification that implies the vehicle is <em>currently</em> stopped would misrepresent the situation.</p>
+      <p>The system needs a policy for delayed data. Historical observations may update journey records and contribute to later review. Whether they should generate a current notification depends on the event, its age, and the intended response.</p>
+      <p>The two timestamps answer different freshness questions, too. A recent receipt time proves that data just arrived; it does not prove that the reported position is recent. Device timestamps also need validation for clock errors and implausible values.</p>
+
+      <blockquote class="pull">
+        <p>A recent receipt time proves that data just arrived; it does not prove that the reported position is recent.</p>
+      </blockquote>
+
+      <p>Missing data requires its own detection path. If a rule runs only when telemetry arrives, it cannot reliably detect a tracker that has gone silent. A scheduled evaluation or timeout must compare the last valid report with the reporting behavior expected for that device.</p>
+      <p>Expected behavior matters: a tracker configured to report infrequently while parked should not be assessed against a moving vehicle’s reporting interval.</p>
+      <p>When observations become stale, represent the affected vehicle condition as <strong>unknown</strong>. Preserve the last reported position and its timestamp, but stop treating it as proof of current activity. An existing exception should remain unresolved until evidence or an authorized operational decision closes it.</p>
+
+      <figure class="figure reveal">
+        <button class="shot" type="button" data-full="assets/img/live-tracking.jpg" data-caption="Illustration — the last known position, with its age, is not proof of current activity." aria-label="Open the live map illustration larger">
+          <picture>
+            <source srcset="assets/img/live-tracking.webp" type="image/webp">
+            <img src="assets/img/live-tracking.jpg" width="1585" height="992" alt="A fleet manager holds a tablet showing a live city map with vehicle markers, a vehicle list with speeds and last-update times, and a selected vehicle detail strip." loading="lazy">
+          </picture>
+        </button>
+        <figcaption><span class="fig-no">Illustration</span><span>The last known position, with its age, is not proof of current activity. This console is an illustrative mockup, not an OpenVTS capture.</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="section reveal" id="lifecycle">
+      <p class="sec-label"><span>04</span><span>Lifecycle</span></p>
+      <h2>Give Each Exception a Lifecycle</h2>
+      <p>A vehicle reporting every 30 seconds could satisfy the same stop rule repeatedly. Those reports should normally update one continuing issue rather than generate a new interruption each time.</p>
+      <p>Separate the condition’s lifecycle from the operator’s response:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Dimension</th><th scope="col">Example states</th></tr></thead>
+          <tbody>
+            <tr><td>Condition</td><td>Pending confirmation, active, recovered, unknown</td></tr>
+            <tr><td>Response</td><td>Unassigned, assigned, acknowledged, investigating, closed</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>A dispatcher can acknowledge an exception while the vehicle remains stopped. Conversely, the vehicle can resume moving before anyone acknowledges the notification.</p>
+      <p>Preserving both dimensions makes the record useful. It shows what happened to the vehicle and how the organization responded.</p>
+
+      <figure class="diagram reveal">
+        <div class="diagram-head">
+          <span class="fig-no">Fig. 03</span>
+          <span class="diagram-title">One stop, two clocks</span>
+        </div>
+        <p class="tl-note"><span>10:17</span> Dispatcher acknowledges. The vehicle remains stopped.</p>
+        <div class="timeline" aria-hidden="true">
+          <div class="tl-axis">
+            <span style="--p:0">10:00</span>
+            <span style="--p:50">10:15</span>
+            <span style="--p:66.7">10:20</span>
+            <span style="--p:100">10:30</span>
+          </div>
+
+          <div class="tl-lane">
+            <p class="tl-name">Vehicle condition</p>
+            <div class="tl-track">
+              <span class="tl-seg" style="--s:0;--e:70"><em>Stopped</em></span>
+              <span class="tl-mark" style="--p:50"><i></i><b>Qualifies<em>10:15</em></b></span>
+              <span class="tl-mark tl-mark--dark" style="--p:66.7"><i></i><b>Resumes<em>10:20</em></b></span>
+              <span class="tl-mark tl-mark--dark tl-mark--down" style="--p:70"><i></i><b>Confirmed<em>10:21</em></b></span>
+            </div>
+          </div>
+
+          <div class="tl-lane">
+            <p class="tl-name">Operator response</p>
+            <div class="tl-track">
+              <span class="tl-span" style="--s:50;--e:76.7"></span>
+              <span class="tl-mark tl-mark--resp" style="--p:50"><i></i><b>Notification<em>10:15</em></b></span>
+              <span class="tl-mark tl-mark--resp tl-mark--down" style="--p:56.7"><i></i><b>Acknowledged<em>10:17</em></b></span>
+              <span class="tl-mark tl-mark--resp tl-mark--down" style="--p:76.7"><i></i><b>Outcome<em>10:23</em></b></span>
+            </div>
+          </div>
+        </div>
+        <ol class="tl-events" aria-hidden="true">
+          <li><time>10:00</time><span>Stop begins.</span></li>
+          <li><time>10:15</time><span>Exception qualifies; notification sent.</span></li>
+          <li><time>10:17</time><span>Dispatcher acknowledges; condition unchanged.</span></li>
+          <li><time>10:20</time><span>Movement resumes.</span></li>
+          <li><time>10:21</time><span>Recovery confirmed.</span></li>
+          <li><time>10:23</time><span>Outcome recorded.</span></li>
+        </ol>
+        <p class="sr-only">Illustrative timeline. Vehicle condition: stop begins at 10:00, qualifies as an exception at 10:15, movement resumes at 10:20, recovery confirmed at 10:21. Operator response: notification sent at 10:15, acknowledged at 10:17, outcome recorded at 10:23. Acknowledgement does not clear the vehicle condition.</p>
+        <figcaption><span>Illustrative process — not an OpenVTS interface or a record of a real incident. Vehicle recovery and operational acknowledgement are separate events.</span></figcaption>
+      </figure>
+
+      <p>Repeated notifications need an explicit policy. Send the initial notification when the exception qualifies. Send another when responsibility changes, escalation becomes necessary, or material new information arrives. A timer-based reminder may be appropriate, but its purpose should be defined.</p>
+      <p>Recovery needs similar care. One noisy position should not close an issue and allow the next report to reopen it. A short confirmation period or a different recovery threshold can reduce this repeated switching. The appropriate margin depends on the signal and operating conditions.</p>
+      <p>Every notification should carry enough information for the owner to begin work:</p>
+      <ul>
+        <li>Vehicle and assigned trip.</li>
+        <li>Condition detected and qualifying duration.</li>
+        <li>Observation time and data age.</li>
+        <li>Relevant planned stop or route context.</li>
+        <li>A link to the supporting history.</li>
+        <li>The expected first action.</li>
+      </ul>
+      <p>A successful delivery to a phone or inbox confirms only that delivery step. It does not establish acknowledgement, investigation, or resolution.</p>
+      <p>The principle is consistent with established alerting practice: urgent interruptions should be actionable, and redundant notifications consume attention that operators need for real problems. Google’s SRE guidance provides a useful reference for making those distinctions. <a href="https://sre.google/sre-book/monitoring-distributed-systems/" target="_blank" rel="noopener">Monitoring Distributed Systems</a>.</p>
+    </section>
+
+    <aside class="band reveal">
+      <div class="band-inner">
+        <p class="band-quote">“A rule can identify a long stop. Calling it an unexpected stop requires additional evidence.”</p>
+        <p class="band-by">On defining the exception</p>
+      </div>
+    </aside>
+
+    <section class="section reveal" id="test">
+      <p class="sec-label"><span>05</span><span>Verification</span></p>
+      <h2>Test the Cases That Could Mislead Dispatch</h2>
+      <p>A rule is ready for a pilot when its expected behavior can be demonstrated under normal conditions and failure conditions.</p>
+      <p>For the unexpected-stop example, a useful test set includes:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Test case</th><th scope="col">Expected behavior</th></tr></thead>
+          <tbody>
+            <tr><td>Approved unloading stop within its allowance</td><td>Record the activity without raising an unexpected-stop exception</td></tr>
+            <tr><td>Unplanned stop with fresh, continuous evidence</td><td>Raise one exception after the configured duration</td></tr>
+            <tr><td>Tracker disconnects during the stop</td><td>Mark the condition uncertain and evaluate the separate freshness rule</td></tr>
+            <tr><td>Old observations arrive after the trip resumes</td><td>Update history without presenting the old stop as a current condition</td></tr>
+            <tr><td>Duplicate observations are received</td><td>Avoid creating duplicate exception records</td></tr>
+            <tr><td>One brief movement reading appears</td><td>Apply the recovery policy before clearing the condition</td></tr>
+            <tr><td>Vehicle belongs to another customer account</td><td>Prevent unauthorized access to the exception and its supporting data</td></tr>
+            <tr><td>Notification delivery fails</td><td>Preserve the issue and make the delivery failure visible</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Also test how external systems behave when an integration retries a request. Repeating the same exception update should not create several dispatch tasks or customer messages. Carrying a stable exception identifier lets the receiving system recognize an update to an existing issue.</p>
+      <p>Begin with a small, representative fleet. Include scheduled stops, poor coverage, different tracker configurations, and actual dispatcher handovers. Record incorrect and missed detections alongside successful ones.</p>
+      <p>Where practical, evaluate proposed rules without sending operational notifications first. That gives the team a chance to compare the generated exceptions with what actually happened before asking dispatchers to rely on them.</p>
+    </section>
+
+    <section class="section reveal" id="apply">
+      <p class="sec-label"><span>06</span><span>Implementation</span></p>
+      <h2>Applying the Approach with OpenVTS</h2>
+      <p>OpenVTS provides documented building blocks for this work. Its notification settings cover overspeed, duration, geofence, and route conditions. The Workflow documentation describes incoming-data and scheduled triggers, conditional logic, actions, and execution inspection.</p>
+      <p>A bounded implementation can begin with a supported condition, select the relevant vehicles, configure the required delivery service, and inspect execution results during testing. The workflow guide also distinguishes a draft from a published workflow: publishing activates the validated server version while the workflow runtime is available. <a href="https://openvts.io/resources/documentation/user-guide/open-vts-workflow" target="_blank" rel="noopener">OpenVTS workflow documentation</a>.</p>
+
+      <figure class="figure reveal">
+        <button class="shot" type="button" data-full="assets/img/automations.jpg" data-caption="Illustrative trigger–condition–action workflow — not an OpenVTS capture. The documented mechanism connects supported telemetry conditions to configured actions; execution details help verify what ran." aria-label="Open the workflow illustration larger">
+          <picture>
+            <source srcset="assets/img/automations.webp" type="image/webp">
+            <img src="assets/img/automations.jpg" width="1586" height="992" alt="A workflow builder showing a geofence exit trigger connected to a vehicle condition, then to a mobile notification and an email action." loading="lazy">
+          </picture>
+        </button>
+        <figcaption><span class="fig-no">Fig. 04</span><span>Illustrative trigger–condition–action workflow — not an OpenVTS capture. Execution details help verify what ran.</span></figcaption>
+      </figure>
+
+      <p>The complete operational process may extend beyond that configuration. Trip expectations, acknowledgement, escalation, and issue closure could involve a dispatch system, service desk, integration, or documented human procedure. Their availability should be verified for the intended deployment.</p>
+      <p>Assign ownership across those systems. If the TMS owns appointments, use its appointment record as the expectation. If a service desk owns response status, keep acknowledgement there and connect it to the fleet exception through a stable identifier.</p>
+      <p>This avoids competing versions of the same operational issue.</p>
+    </section>
+
+    <section class="section reveal" id="measure">
+      <p class="sec-label"><span>07</span><span>Measurement</span></p>
+      <h2>Measure Reliability and Operator Workload Together</h2>
+      <p>Alert volume is useful context, but it cannot establish whether exception management is improving. Fewer notifications could indicate better filtering or missed incidents.</p>
+      <p>Evaluate several measures together:</p>
+      <ul>
+        <li><strong>Detection delay:</strong> elapsed time from the condition qualifying to exception creation.</li>
+        <li><strong>Acknowledgement delay:</strong> elapsed time from creation to explicit human acknowledgement.</li>
+        <li><strong>Actionable-alert proportion:</strong> the share of reviewed alerts that required the intended intervention.</li>
+        <li><strong>Missed exceptions:</strong> known qualifying cases that the system failed to raise.</li>
+        <li><strong>Observation freshness:</strong> age of valid device observations when decisions were made.</li>
+      </ul>
+      <p>Keep delayed telemetry separate from processing delay. Define acknowledgement through an explicit action rather than assuming that a notification was read.</p>
+      <p>Review distributions and individual failures alongside averages. A small number of severely delayed alerts may matter more than a good overall mean. Record the review sample and operating conditions so comparisons remain meaningful.</p>
+
+      <div class="coda">
+        <p>The unexpected-stop rule is successful when dispatchers can understand why it fired, assess the evidence, and take responsibility for the next step. It also needs to expose when the evidence is insufficient.</p>
+        <p>Before enabling any fleet alert, the engineering and operations teams should be able to explain its scope, qualifying condition, data requirements, owner, recovery rule, and failure behavior. Those decisions provide a sound basis for an exception-driven operation—and a concrete way to test whether it deserves the operator’s trust.</p>
+      </div>
+
+      <div class="sources">
+        <p class="sources-title">Sources</p>
+        <ol>
+          <li><a href="https://openvts.io/resources/documentation/user-guide/notification-preferences" target="_blank" rel="noopener">OpenVTS — Notification preferences</a></li>
+          <li><a href="https://openvts.io/resources/documentation/user-guide/open-vts-workflow" target="_blank" rel="noopener">OpenVTS — Workflow documentation</a></li>
+          <li><a href="https://sre.google/sre-book/monitoring-distributed-systems/" target="_blank" rel="noopener">Google SRE — Monitoring Distributed Systems</a></li>
+        </ol>
+      </div>
+
+      <p class="endnote">Product visuals are illustrative mockups unless labelled otherwise; they are not captures of a live OpenVTS deployment. Thresholds, states, and policies shown are design examples to validate for a real fleet.</p>
     </section>
   </div>
 </article>
