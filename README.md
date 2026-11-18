@@ -1,14 +1,15 @@
 # hell1213.github.io
 
-A single-page editorial article: **Designing Fleet Alerts Operators Can Trust** — exception-driven fleet operations, written around OpenVTS's documented notification and workflow features.
+A single-page editorial article: **Designing fleet alerts operators can trust** — a customer-facing look at GPS fleet alerts, fleet alert management, and exception-driven fleet operations, built around OpenVTS's documented tracking, notification, history, report, workflow, and API capabilities.
 
-Designed in black, white and warm grey. Vehicle imagery keeps its original colour.
+The piece is written for fleet owners, transport companies, logistics operators, and dispatch teams managing large vehicle fleets.
 
 ## Stack
 
 - Hand-written HTML, CSS and vanilla JavaScript. No build step.
-- Fonts: Instrument Serif, Inter, JetBrains Mono (Google Fonts).
-- Images: WebP with JPEG fallback.
+- Type: Inter only (400/500/600/700), sentence case, hierarchy through size, weight, and spacing.
+- Figures: original HTML/CSS diagrams. No fabricated product screenshots.
+- OG image: an original Inter title card (`assets/img/og.jpg`).
 
 ## Local preview
 
@@ -23,10 +24,28 @@ Then open http://localhost:8000.
 This repository is named `hell1213.github.io`, so GitHub Pages serves it at
 https://hell1213.github.io after pushing to `main`.
 
+The root URL is the article's canonical address, so no separate slug is needed.
+
 ## A note on the visuals
 
-The two explanatory figures (Fig. 01 decision flow, Fig. 03 two-track timeline)
-and the Fig. 02 condition panel are drawn in HTML/CSS from the article's text.
-The product imagery is illustrative mockup work, captioned as such: it is not a
-capture of a live OpenVTS deployment. Replace those images with authorised
-OpenVTS screenshots before presenting the piece as product documentation.
+The three figures are explanatory diagrams drawn from the article's examples: the
+decision flow (Fig. 01), the Over Stay / Over Idle condition panel (Fig. 02), and
+the two-track response timeline (Fig. 03). None is a capture of the OpenVTS
+interface, and no mockup is presented as a real product screen.
+
+Verified product captures are still outstanding:
+
+1. Notification Preferences showing Over Stay and Over Idle.
+2. Geofence configuration or map view.
+3. A tested Workflow configuration with execution details.
+4. Historical route or trip history.
+
+Add those when real, authorised captures are available.
+
+## SEO
+
+- Primary: GPS fleet alerts, fleet alert management, exception-driven fleet operations.
+- Secondary: fleet monitoring software, GPS tracking notifications, vehicle tracking alerts, fleet operations management, GPS telemetry, geofencing for fleet management, fleet workflow automation.
+- Long-tail: how to manage GPS alerts across large fleets, how fleet managers handle unexpected vehicle stops, improving fleet operations with GPS tracking alerts, reducing unnecessary fleet tracking notifications.
+
+Metadata, Open Graph, Twitter cards, and JSON-LD are set in `index.html`.

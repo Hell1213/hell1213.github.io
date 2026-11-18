@@ -1,11 +1,10 @@
-/* Field Note 01 — reading progress, reveals, contents, lightbox */
+/* Field note 01 — progress, header state, contents */
 (() => {
   'use strict';
 
   const doc = document.documentElement;
   const head = document.getElementById('siteHead');
   const bar = document.getElementById('progressBar');
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---- progress + header state ---- */
   let ticking = false;
@@ -22,22 +21,6 @@
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-
-  /* ---- reveal on scroll ---- */
-  const revealEls = document.querySelectorAll('.reveal');
-  if (!reduced && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-in');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    revealEls.forEach((el) => io.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add('is-in'));
-  }
 
   /* ---- active contents entry ---- */
   const links = [...document.querySelectorAll('.contents a')];
@@ -60,38 +43,5 @@
       if (visible) setActive(visible.target.id);
     }, { rootMargin: '-25% 0px -55% 0px', threshold: [0, 0.2, 0.6] });
     sections.forEach((s) => spy.observe(s));
-  }
-
-  /* ---- lightbox ---- */
-  const dialog = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lbImg');
-  const lbCap = document.getElementById('lbCap');
-  const closeBtn = dialog ? dialog.querySelector('.lb-close') : null;
-  let lastFocus = null;
-
-  const open = (btn) => {
-    lastFocus = btn;
-    lbImg.src = btn.dataset.full || '';
-    lbImg.alt = btn.querySelector('img')?.alt || '';
-    lbCap.textContent = btn.dataset.caption || '';
-    dialog.showModal();
-    document.body.style.overflow = 'hidden';
-    closeBtn.focus();
-  };
-
-  document.querySelectorAll('[data-full]').forEach((btn) => {
-    btn.addEventListener('click', () => open(btn));
-  });
-
-  if (dialog) {
-    closeBtn.addEventListener('click', () => dialog.close());
-    dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) dialog.close();
-    });
-    dialog.addEventListener('close', () => {
-      document.body.style.overflow = '';
-      lbImg.removeAttribute('src');
-      if (lastFocus) lastFocus.focus();
-    });
   }
 })();
