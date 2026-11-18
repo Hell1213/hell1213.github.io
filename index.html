@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every vehicle. One calm screen. — A field note on fleet operations</title>
+<meta name="description" content="A field note on fleet software that hides its complexity: one live map, geofences that announce themselves, trip replay, reports, alerts, and automations that do the watching for you.">
+<link rel="canonical" href="https://hell1213.github.io/">
+<meta name="theme-color" content="#f4f2ee">
+<meta name="author" content="Rajat Yadav">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Rajat Yadav — Field Notes">
+<meta property="og:title" content="Every vehicle. One calm screen.">
+<meta property="og:description" content="Seven surfaces of a modern fleet console, and the design decisions that keep them quiet.">
+<meta property="og:url" content="https://hell1213.github.io/">
+<meta property="og:image" content="https://hell1213.github.io/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-11-18">
+<meta property="article:author" content="Rajat Yadav">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Every vehicle. One calm screen.">
+<meta name="twitter:description" content="Seven surfaces of a modern fleet console, and the design decisions that keep them quiet.">
+<meta name="twitter:image" content="https://hell1213.github.io/assets/img/og.jpg">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script>document.documentElement.classList.add('js');</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Every vehicle. One calm screen.",
+  "description": "Seven surfaces of a modern fleet console, and the design decisions that keep them quiet.",
+  "image": "https://hell1213.github.io/assets/img/og.jpg",
+  "datePublished": "2026-11-18",
+  "dateModified": "2026-11-18",
+  "author": { "@type": "Person", "name": "Rajat Yadav", "url": "https://github.com/Hell1213" },
+  "publisher": { "@type": "Person", "name": "Rajat Yadav" },
+  "mainEntityOfPage": "https://hell1213.github.io/"
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<header class="site-head" id="siteHead">
+  <a class="brand" href="#top" aria-label="Back to top">
+    <span class="brand-mark">RY</span>
+    <span class="brand-name">Rajat Yadav</span>
+  </a>
+  <span class="head-note">Field Note 01 — Fleet Operations</span>
+  <span class="head-meta"><span class="live-dot" aria-hidden="true"></span>8 min read</span>
+</header>
+
+<main id="main">
+<article>
+
+  <header class="hero wrap" id="top">
+    <p class="kicker"><span>Field Note 01</span><span>Fleet operations</span></p>
+    <h1>Every vehicle.<br>One calm screen.</h1>
+    <p class="deck">Fleet software usually adds noise. The better version subtracts it — one live map, boundaries that announce themselves, and a day you can replay like a film.</p>
+    <div class="byline">
+      <div class="byline-author">
+        <span class="avatar" aria-hidden="true">RY</span>
+        <span class="byline-text">
+          <strong>Rajat Yadav</strong>
+          <span>Product &amp; interface notes</span>
+        </span>
+      </div>
+      <div class="byline-meta">
+        <time datetime="2026-11-18">18 Nov 2026</time>
+        <span>8 min read</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-body">
+    <figure class="hero-figure reveal">
+      <button class="shot" type="button" data-full="assets/img/live-tracking.jpg" data-caption="Fig. 01 — The live console: the fleet on the left, the world on the right, and one selected vehicle held in focus." aria-label="Open figure 1 larger">
+        <picture>
+          <source srcset="assets/img/live-tracking.webp" type="image/webp">
+          <img src="assets/img/live-tracking.jpg" width="1585" height="992" alt="A fleet manager holds a tablet showing a live map of a city with vehicle markers, a vehicle list with speeds, and a detail strip for Truck 204." fetchpriority="high">
+        </picture>
+        <span class="zoom-hint" aria-hidden="true">View full size</span>
+      </button>
+      <figcaption><span class="fig-no">Fig. 01</span><span>The live console: the fleet on the left, the world on the right, and one selected vehicle held in focus.</span></figcaption>
+    </figure>
+
+    <section class="intro">
+      <p class="lead">Most fleet software is built on a quiet assumption: that the operator needs more. More panels, more pings, more numbers per square inch. Then a dispatcher opens the screen at 7:40 in the morning, fifteen trucks are already late, and the extra information becomes another job.</p>
+      <p>The console in this field note starts from the opposite direction. It assumes the answer should be visible before the question is finished. Where is everything? What changed? What needs a human? Seven surfaces, each doing one job, arranged so the next action is obvious.</p>
+
+      <nav class="contents" aria-label="What's inside">
+        <p class="contents-title">What's inside</p>
+        <ol>
+          <li><a href="#map"><span class="c-no">01</span><span class="c-title">One map, and nothing else asking for attention</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#zones"><span class="c-no">02</span><span class="c-title">Boundaries that do the watching</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#history"><span class="c-no">03</span><span class="c-title">Yesterday, replayed</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#reports"><span class="c-no">04</span><span class="c-title">The week, on one page</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#alerts"><span class="c-no">05</span><span class="c-title">Alerts that earn their place</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#automations"><span class="c-no">06</span><span class="c-title">The workflow that runs itself</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#mobile"><span class="c-no">07</span><span class="c-title">The office in a pocket</span><span class="c-arrow" aria-hidden="true">→</span></a></li>
+        </ol>
+      </nav>
+    </section>
+
+    <section class="section reveal" id="map">
+      <p class="sec-label"><span>01</span><span>Live tracking</span></p>
+      <h2>One map, and nothing else asking for attention</h2>
+      <p>A fleet map fails in two directions. Show too little and the dispatcher opens a spreadsheet. Show too much and the map becomes wallpaper — every vehicle equally loud, every number competing with the one beside it.</p>
+      <p>The cover image makes three decisions that keep the screen quiet. The list and the map share a single selection: choose a truck in the list and it becomes the only thing the map explains. Status is carried by a small set of state chips — running, stopped, idle, offline — rather than a rainbow of colours competing with the road. And freshness is always visible, because “2 sec ago” is a promise the screen has to keep.</p>
+      <p>The selected vehicle opens a strip along the bottom: status, speed, ignition, distance travelled, last update. Five facts, one destination — the phone call the dispatcher is about to make. Everything else about that vehicle, its trips and logs and sensors, is one tab away, not one glance away.</p>
+
+      <blockquote class="pull">
+        <p>The map is doing its job when nobody has to ask where anything is.</p>
+      </blockquote>
+    </section>
+
+    <section class="section reveal" id="zones">
+      <p class="sec-label"><span>02</span><span>Geofencing</span></p>
+      <h2>Boundaries that do the watching</h2>
+      <p>A geofence turns geography into an event. Draw a polygon once — a distribution centre, a customer’s yard, a restricted road — and the system will tell you when a vehicle enters or leaves it.</p>
+      <p>The temptation is to draw fifty. Each zone is easy to add and hard to retire, and every zone can produce two alerts. The discipline is to keep zones in the language of the operation: depots, customer sites, places where a vehicle should not be after dark. Two toggles per zone, entry and exit, and nothing else demanding attention.</p>
+      <p>The console treats a zone crossing as a small, legible fact: <em>vehicle entered zone, Truck 204, Distribution Centre, 10:24.</em> No coordinates, no polygon maths — just the thing an operator would have said out loud.</p>
+      <p>Used well, geofences replace a category of phone calls. Did the truck arrive? Did it leave? Was anyone at the site after hours? Used badly, they replace silence with noise. The difference is rarely the technology; it is how many zones someone drew in the first week.</p>
+
+      <figure class="figure reveal">
+        <button class="shot" type="button" data-full="assets/img/geofencing.jpg" data-caption="Fig. 02 — Zones are drawn once and named in the operator’s language. Entry and exit are the only rules on the panel." aria-label="Open figure 2 larger">
+          <picture>
+            <source srcset="assets/img/geofencing.webp" type="image/webp">
+            <img src="assets/img/geofencing.jpg" width="1585" height="992" alt="Geofencing screen with a searchable zone list, a map polygon around a Distribution Centre, and zone rules for entry and exit." loading="lazy">
+          </picture>
+          <span class="zoom-hint" aria-hidden="true">View full size</span>
+        </button>
+        <figcaption><span class="fig-no">Fig. 02</span><span>Zones are drawn once and named in the operator’s language. Entry and exit are the only rules on the panel.</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="section reveal" id="history">
+      <p class="sec-label"><span>03</span><span>Trip history</span></p>
+      <h2>Yesterday, replayed</h2>
+      <p>Live answers “where”. History answers “what happened”, and the two should never share a queue.</p>
+      <p>Trip history reads like a logbook: every trip with a start, an end, a distance, a duration, and a stop count. Select one and the map redraws the route between two pins; a summary gives distance, driving time, stopped time, and maximum speed. A scrubber lets the day move under your thumb instead of arriving all at once.</p>
+      <p>This is the surface that settles arguments. A customer says the delivery never came; the route says it did, at 10:42, and stopped for eleven minutes. A driver says a route is impossible in the allotted time; the trip says it takes two hours and one minute on a Tuesday. An insurer asks what happened in the ninety seconds before an incident; the timeline answers without guesswork.</p>
+      <p>Good history is browsable, not queryable. The operator should be able to find the day, find the vehicle, and press play — without composing a report to ask a question.</p>
+
+      <figure class="figure reveal">
+        <button class="shot" type="button" data-full="assets/img/trip-history.jpg" data-caption="Fig. 03 — A day as a list, a route on the map, and a summary of distance, driving, stopped time, and top speed." aria-label="Open figure 3 larger">
+          <picture>
+            <source srcset="assets/img/trip-history.webp" type="image/webp">
+            <img src="assets/img/trip-history.jpg" width="1568" height="1003" alt="Trip history screen for Van 204 showing a highlighted route on a city map, a selected trip summary, a trip table with distances and durations, and a timeline scrubber." loading="lazy">
+          </picture>
+          <span class="zoom-hint" aria-hidden="true">View full size</span>
+        </button>
+        <figcaption><span class="fig-no">Fig. 03</span><span>A day as a list, a route on the map, and a summary of distance, driving, stopped time, and top speed.</span></figcaption>
+      </figure>
+    </section>
+
+    <aside class="band reveal">
+      <div class="band-inner">
+        <p class="band-quote">“A fleet does not need more data. It needs the right five facts, in the right order, at the right moment.”</p>
+        <p class="band-by">The operating principle</p>
+      </div>
+    </aside>
+
+    <section class="section reveal" id="reports">
+      <p class="sec-label"><span>04</span><span>Reports</span></p>
+      <h2>The week, on one page</h2>
+      <p>Reports are a different workload from the live map, and they deserve a different surface. The distance report is deliberately plain: a date range, a vehicle filter, and the numbers that survive the week — total distance, engine hours, vehicles counted, average distance, plus a daily trend and a per-vehicle bar.</p>
+      <p>Plainness is what makes it readable. The bars are sorted, so the outlier is the long one. A vehicle with high engine hours and low distance is not a mystery; it is idling, queuing, or waiting at a dock. A vehicle with high distance and modest hours is doing the long, clean runs.</p>
+      <p>Two rules keep reports useful. Filter before you read — a fleet-wide average hides the vehicle that needs attention. And export without ceremony, because the report usually leaves the building: to a client, an accountant, or a Monday meeting.</p>
+      <p>The separation matters for performance too. Live reads current state; reports scan history. Put them on the same path and the dispatcher’s map pays for somebody else’s quarterly review.</p>
+
+      <figure class="figure reveal">
+        <button class="shot" type="button" data-full="assets/img/reports.jpg" data-caption="Fig. 04 — Distance by vehicle, engine hours, trips, and a daily trend: a week reduced to the numbers that survive it." aria-label="Open figure 4 larger">
+          <picture>
+            <source srcset="assets/img/reports.webp" type="image/webp">
+            <img src="assets/img/reports.jpg" width="1585" height="992" alt="Distance report screen showing fleet summary totals, a sorted distance-by-vehicle bar chart, a daily distance line chart, and a table of vehicles with distance, engine hours, and trips." loading="lazy">
+          </picture>
+          <span class="zoom-hint" aria-hidden="true">View full size</span>
+        </button>
+        <figcaption><span class="fig-no">Fig. 04</span><span>Distance by vehicle, engine hours, trips, and a daily trend: a week reduced to the numbers that survive it.</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="section reveal" id="alerts">
+      <p class="sec-label"><span>05</span><span>Alerts</span></p>
+      <h2>Alerts that earn their place</h2>
+      <p>An alert is a promise that something deserves attention. Most systems break that promise within a month.</p>
+      <p>This one begins with an event history rather than a siren: time, vehicle, event, severity, status. Six events, scannable in a glance. “Open” and “Acknowledged” are first-class states, because an alert without an owner is just decoration. Speed thresholds, temperature rises, fuel drops, and zone exits all arrive in the same ledger instead of four different inboxes.</p>
+      <p>The filters are the quiet hero. By vehicle, by date, by event type. An operator investigating one truck should not have to read the whole fleet’s week.</p>
+      <p>The test for any alert is simple: can someone do something about it, and do they know it is theirs? If the answer is no, the alert is not monitoring. It is background noise with a timestamp.</p>
+
+      <figure class="figure reveal">
+        <button class="shot" type="button" data-full="assets/img/alerts.jpg" data-caption="Fig. 05 — One ledger for every event, with severity and acknowledgement visible before the detail." aria-label="Open figure 5 larger">
+          <picture>
+            <source srcset="assets/img/alerts.webp" type="image/webp">
+            <img src="assets/img/alerts.jpg" width="1586" height="992" alt="Alerts screen with filters, counts for open, acknowledged, and high severity events, a bar chart of event types, and an event table with severity badges and status." loading="lazy">
+          </picture>
+          <span class="zoom-hint" aria-hidden="true">View full size</span>
+        </button>
+        <figcaption><span class="fig-no">Fig. 05</span><span>One ledger for every event, with severity and acknowledgement visible before the detail.</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="section reveal" id="automations">
+      <p class="sec-label"><span>06</span><span>Automations</span></p>
+      <h2>The workflow that runs itself</h2>
+      <p>Once an event exists, someone has to respond to it. Automations are how a fleet stops treating every response as a fresh act of memory.</p>
+      <p>The builder is a sentence made of blocks: when a trigger fires, if the condition holds, do this — then that. In the example on screen, a geofence exit for any fleet vehicle sends a mobile push and an email to operations. Two actions, one condition, no code. Draft, test, save.</p>
+      <p>The value is not the individual notification. It is the removal of a decision from a human’s day. The dispatcher no longer has to remember to check the yard at six; the workflow checks, and speaks only when the gate is crossed.</p>
+      <p>Start with one automation and instrument it. A workflow nobody can explain is worse than a manual process, because it fails silently. The measure of a good one is boring: fewer surprises, fewer repetitive messages, and a paper trail that reads like the process itself.</p>
+
+      <figure class="figure reveal">
+        <button class="shot" type="button" data-full="assets/img/automations.jpg" data-caption="Fig. 06 — A trigger, a condition, two actions. The whole workflow can be read in a single glance." aria-label="Open figure 6 larger">
+          <picture>
+            <source srcset="assets/img/automations.webp" type="image/webp">
+            <img src="assets/img/automations.jpg" width="1586" height="992" alt="Automation builder showing a flow from a geofence exit trigger, through a vehicle-assigned condition, to a mobile push and an email action." loading="lazy">
+          </picture>
+          <span class="zoom-hint" aria-hidden="true">View full size</span>
+        </button>
+        <figcaption><span class="fig-no">Fig. 06</span><span>A trigger, a condition, two actions. The whole workflow can be read in a single glance.</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="section reveal" id="mobile">
+      <p class="sec-label"><span>07</span><span>Mobile</span></p>
+      <h2>The office in a pocket</h2>
+      <p>Field software is used standing up, in sunlight, often with one hand. That is a different design brief from a dispatcher’s dual-monitor desk.</p>
+      <p>The mobile view keeps the same state model — same vehicles, same statuses, same selection — and removes everything that requires a second hand. Search, four state chips, the map, the list. A manager at a customer site can confirm a vehicle is en route without opening a laptop. A driver can see the day’s assigned movement without reading a dashboard built for a wall.</p>
+      <p>Responsive is not a smaller desktop. It is a different posture: the thumb, the glance, the interrupted conversation. The best compliment a field screen can receive is that it was closed again in four seconds.</p>
+
+      <figure class="figure reveal">
+        <button class="shot" type="button" data-full="assets/img/mobile.jpg" data-caption="Fig. 07 — The same fleet, the same state, reduced to what one hand can do in the field." aria-label="Open figure 7 larger">
+          <picture>
+            <source srcset="assets/img/mobile.webp" type="image/webp">
+            <img src="assets/img/mobile.jpg" width="1568" height="1003" alt="A phone and a tablet side by side showing the fleet overview: map, vehicle list with status chips, and a selected vehicle detail card." loading="lazy">
+          </picture>
+          <span class="zoom-hint" aria-hidden="true">View full size</span>
+        </button>
+        <figcaption><span class="fig-no">Fig. 07</span><span>The same fleet, the same state, reduced to what one hand can do in the field.</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="section closing reveal" id="pattern">
+      <p class="sec-label"><span>08</span><span>The pattern</span></p>
+      <h2>The pattern underneath</h2>
+      <p>Seven surfaces, one state model. The map, the list, the trip, the report, the alert, and the automation are all reading and writing the same understanding of the fleet. That is why the console feels calm: nothing has to be reconciled between tabs, because there are no competing versions of the truth.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Each surface, the question it answers, and what it keeps out of the way</caption>
+          <thead>
+            <tr><th scope="col">Surface</th><th scope="col">Question it answers</th><th scope="col">What stays out of the way</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Live map</td><td>Where is everything now?</td><td>History, reports</td></tr>
+            <tr><td>Geofences</td><td>Who crossed which line?</td><td>Raw coordinates</td></tr>
+            <tr><td>Trip history</td><td>What happened yesterday?</td><td>Fleet-wide averages</td></tr>
+            <tr><td>Reports</td><td>What changed this week?</td><td>Real-time updates</td></tr>
+            <tr><td>Alerts</td><td>What needs a human?</td><td>Everything already fine</td></tr>
+            <tr><td>Automations</td><td>What should happen next?</td><td>Manual routine</td></tr>
+            <tr><td>Mobile</td><td>What do I need right now?</td><td>The rest of the desk</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Calm is not the absence of information. It is information arranged so the next action is obvious. A dispatcher should be able to look up, see the fleet, and know what to do. Everything else is interface.</p>
+
+      <p class="endnote">Field Note 01 · Screens are illustrative mockups; vehicle names, routes, and figures are sample data.</p>
+    </section>
+  </div>
+</article>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p class="foot-kicker">End of field note</p>
+    <p class="foot-title">Thanks for<br>reading.</p>
+    <div class="foot-links">
+      <a href="https://github.com/Hell1213" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+    </div>
+    <div class="foot-base">
+      <span>© 2026 Rajat Yadav</span>
+      <span>Published with GitHub Pages</span>
+    </div>
+  </div>
+</footer>
+
+<dialog id="lightbox" aria-label="Image viewer">
+  <button class="lb-close" type="button" aria-label="Close image viewer">✕</button>
+  <div class="lb-media"><img id="lbImg" alt=""></div>
+  <p class="lb-cap" id="lbCap"></p>
+</dialog>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
