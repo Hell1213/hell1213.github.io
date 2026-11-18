@@ -363,8 +363,8 @@ h2 {
 .ovts {
   font-weight: 600;
   color: var(--ink);
-  background: #e3e0d8;
-  padding: .02em .22em;
+  background: #e2ddd1;
+  padding: .02em .24em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -526,6 +526,20 @@ th:first-child, td:first-child { width: 34%; }
 }
 
 /* ---------- diagrams ---------- */
+
+.shot {
+  margin: clamp(2rem, 3.6vw, 2.6rem) 0 0;
+  padding-top: clamp(1rem, 2vw, 1.4rem);
+  border-top: 1px solid var(--line-strong);
+}
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.shot figcaption { grid-template-columns: 1fr; }
 
 .diagram {
   margin: clamp(2rem, 3.6vw, 2.6rem) 0 0;

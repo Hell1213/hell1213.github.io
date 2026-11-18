@@ -227,10 +227,32 @@
         </div>
         <figcaption><span><strong class="ovts">OpenVTS</strong> documents stopped-duration and idle-duration conditions separately; the idle condition requires an ACC ignition source and zero speed.</span></figcaption>
       </figure>
-      <!-- Product capture pending: Notification Preferences showing Over Stay and Over Idle. -->
+      <!-- PRODUCT CAPTURE SLOT A: Notification Preferences (Over Stay / Over Idle)
+           File: assets/img/notification-preferences.webp  (1600x1000 or wider, 2x if possible)
+           Alt: OpenVTS Notification Preferences showing Over Stay and Over Idle with separate duration settings.
+
+      <figure class="shot">
+        <img src="assets/img/notification-preferences.webp"
+             alt="OpenVTS Notification Preferences showing Over Stay and Over Idle with separate duration settings."
+             width="1600" height="1000" loading="lazy" decoding="async">
+        <figcaption><span>Notification Preferences in OpenVTS, with Over Stay and Over Idle configured as separate duration conditions. Sample data; personal details removed.</span></figcaption>
+      </figure>
+      -->
 
 
       <p>Geofencing for fleet management works the same way. Use geofences for depots, customer sites, restricted areas, and service zones. Arrival and departure alerts are useful when they are tied to a schedule or a trip. Without that context, they become a stream of entries and exits that no one can act on.</p>
+
+      <!-- PRODUCT CAPTURE SLOT B: Geofence configuration or map view
+           File: assets/img/geofence-config.webp  (1600x1000 or wider, 2x if possible)
+           Alt: OpenVTS geofence configuration with a depot boundary drawn on the map and entry and exit rules.
+
+      <figure class="shot">
+        <img src="assets/img/geofence-config.webp"
+             alt="OpenVTS geofence configuration with a depot boundary drawn on the map and entry and exit rules."
+             width="1600" height="1000" loading="lazy" decoding="async">
+        <figcaption><span>A depot geofence in OpenVTS, with entry and exit tied to arrival and departure alerts. Sample data.</span></figcaption>
+      </figure>
+      -->
       <p>For overspeed, prefer a sustained pattern over a single reading. A brief spike may be a GPS error or a road-level misclassification. A stretch of sustained speed above the limit is a safety signal. For route activity, a planned detour is routine; an unexplained departure from the corridor is not.</p>
       <p>A large part of reducing unnecessary fleet tracking notifications is avoiding repetition: one continuing condition should update one issue, not create a new interruption every reporting cycle. Send a reminder only when ownership changes, escalation is due, or material new information arrives. Confirm recovery before closing an issue, and do not reopen it on a single noisy position.</p>
       <p>Route the alert to the team that can act. A dispatcher owns an active trip. A depot supervisor owns a site or loading issue. A safety lead owns repeated overspeed. A maintenance team owns a device that has stopped reporting. Sending an alert to the wrong team adds delay and another handoff.</p>
@@ -249,6 +271,18 @@
         <li><strong>Contact the right person.</strong> Call the driver, depot, or customer only when the stop is unexplained or the delay affects the next commitment.</li>
         <li><strong>Record and escalate.</strong> Note the outcome, pass it to the owning team if needed, and close the exception only when the condition is resolved or an authorized decision is made.</li>
       </ul>
+
+      <!-- PRODUCT CAPTURE SLOT C: Historical route or trip history
+           File: assets/img/trip-history.webp  (1600x1000 or wider, 2x if possible)
+           Alt: OpenVTS trip history for one vehicle showing the route, stop durations, and replay controls.
+
+      <figure class="shot">
+        <img src="assets/img/trip-history.webp"
+             alt="OpenVTS trip history for one vehicle showing the route, stop durations, and replay controls."
+             width="1600" height="1000" loading="lazy" decoding="async">
+        <figcaption><span>Trip history in OpenVTS, used to check how a vehicle reached a stop and how long it stayed. Sample data.</span></figcaption>
+      </figure>
+      -->
       <p>This is how fleet managers handle unexpected vehicle stops without treating every stop as an emergency. The process is short, but each step depends on the previous one being visible.</p>
 
       <div class="table-wrap">
@@ -324,7 +358,7 @@
           <li><time>10:23</time><span>Outcome recorded.</span></li>
         </ol>
         <p class="sr-only">Illustrative timeline. Vehicle condition: stop begins at 10:00, qualifies as an exception at 10:15, movement resumes at 10:20, recovery confirmed at 10:21. Operator response: notification sent at 10:15, acknowledged at 10:17, outcome recorded at 10:23. Acknowledgement does not clear the vehicle condition.</p>
-        <figcaption><span>Illustrative process, not an <strong class="ovts">OpenVTS</strong> screen or a record of a real incident. Vehicle recovery and operational acknowledgement are separate events.</span></figcaption>
+        <figcaption><span>Illustrative process, not an OpenVTS screen or a record of a real incident. Vehicle recovery and operational acknowledgement are separate events.</span></figcaption>
       </figure>
 
       <p>Escalation should be defined before it is needed: how long an unacknowledged exception waits, who receives it next, and what happens outside operating hours. Without that, a notification can sit unowned while the vehicle condition changes.</p>
@@ -346,7 +380,17 @@
       </ul>
       <p>These are building blocks, not a complete operating model. Acknowledgement, escalation, customer communication, and resolution may sit in a dispatch system, a service desk, or a documented human procedure. Verify which parts <strong class="ovts">OpenVTS</strong> configures and which belong to another system.</p>
       <p>A useful division of labour: let the tracking platform <mark>detect and describe</mark> an exception; let the operational system decide and record. Connect them with a stable reference so the same issue is not recreated in two places.</p>
-      <!-- Product captures pending: geofence configuration or map view, a tested Workflow with execution details, and trip history. -->
+      <!-- PRODUCT CAPTURE SLOT D: Workflow builder with a tested configuration
+           File: assets/img/workflow-builder.webp  (1600x1000 or wider, 2x if possible)
+           Alt: OpenVTS Workflow builder showing a trigger, condition, and action with execution details.
+
+      <figure class="shot">
+        <img src="assets/img/workflow-builder.webp"
+             alt="OpenVTS Workflow builder showing a trigger, condition, and action with execution details."
+             width="1600" height="1000" loading="lazy" decoding="async">
+        <figcaption><span>A tested Workflow in OpenVTS, showing the configuration and its execution details. Sample data.</span></figcaption>
+      </figure>
+      -->
       <p><strong class="ovts">OpenVTS</strong> automation can deliver a notification or call an external action when a supported condition is met. It should not be assumed to manage a complete exception lifecycle unless that behaviour is configured and verified. The same caution applies to fleet workflow automation in any platform: the automation is only as reliable as the process behind it.</p>
     </section>
 
@@ -384,7 +428,7 @@
         </ol>
       </div>
 
-      <p class="endnote">The figures are original explanatory diagrams, not captures of the <strong class="ovts">OpenVTS</strong> interface. No mockup is presented as a real product screen. Thresholds, states, and policies shown are examples to validate for a real fleet.</p>
+      <p class="endnote">The figures are original explanatory diagrams, not captures of the OpenVTS interface. No mockup is presented as a real product screen. Thresholds, states, and policies shown are examples to validate for a real fleet.</p>
     </section>
   </div>
 </article>

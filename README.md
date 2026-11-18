@@ -36,14 +36,18 @@ decision flow (Fig. 01), the Over Stay / Over Idle condition panel (Fig. 02), an
 the two-track response timeline (Fig. 03). None is a capture of the OpenVTS
 interface, and no mockup is presented as a real product screen.
 
-Verified product captures are still outstanding:
+Verified product captures are still outstanding. Each slot is marked with a
+commented-out `figure.shot` block in `index.html`; drop in the file and uncomment.
 
-1. Notification Preferences showing Over Stay and Over Idle.
-2. Geofence configuration or map view.
-3. A tested Workflow configuration with execution details.
-4. Historical route or trip history.
+| Slot | Where | File | Shows |
+| --- | --- | --- | --- |
+| A | Section 04, after Fig. 02 | `assets/img/notification-preferences.webp` | Notification Preferences with Over Stay and Over Idle |
+| B | Section 04, geofencing paragraph | `assets/img/geofence-config.webp` | Geofence configuration or map view |
+| C | Section 05, after the investigation steps | `assets/img/trip-history.webp` | Historical route or trip history |
+| D | Section 06, before the automation paragraph | `assets/img/workflow-builder.webp` | Tested Workflow with execution details |
 
-Add those when real, authorised captures are available.
+Export at 1600x1000 or wider (2x if possible), remove personal data, and use the
+alt text already written in each comment.
 
 ## SEO
 
